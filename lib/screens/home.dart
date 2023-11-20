@@ -123,6 +123,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
+                      onTap: () async {
+                        final resultado = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                telaEdit(note: notasFiltradas[index]),
+                          ),
+                        );
+                        if (resultado != null) {
+                          setState(() {
+                            int inoriginal =
+                                sampleNotes.indexOf(notasFiltradas[index]);
+                            sampleNotes[inoriginal] = Note(
+                                id: sampleNotes[inoriginal].id,
+                                title: resultado[0],
+                                content: resultado[1],
+                                modifiedTime: DateTime.now());
+                            notasFiltradas[index] = Note(
+                                id: notasFiltradas[index].id,
+                                title: resultado[0],
+                                content: resultado[1],
+                                modifiedTime: DateTime.now());
+                          });
+                        }
+                      },
                       title: RichText(
                           maxLines: 3,
                           overflow: TextOverflow.fade,
@@ -147,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.only(top: 8.0),
                         child: Text(
                           'Editado: ' +
-                              DateFormat('dd/ mm/ yyy, h:mm a')
+                              DateFormat('d MMMM yyyy, h:mm a')
                                   .format(sampleNotes[index].modifiedTime),
                           style: TextStyle(
                               fontSize: 11,

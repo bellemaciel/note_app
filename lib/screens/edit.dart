@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/models/note.dart';
 
 class telaEdit extends StatefulWidget {
-  const telaEdit({super.key});
+  final Note? note;
+  const telaEdit({super.key, this.note});
 
   @override
   State<telaEdit> createState() => _telaEditState();
@@ -10,6 +12,17 @@ class telaEdit extends StatefulWidget {
 class _telaEditState extends State<telaEdit> {
   TextEditingController _tituloControle = TextEditingController();
   TextEditingController _conteudoControle = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.note != null) {
+      _tituloControle = TextEditingController(text: widget.note!.title);
+      _conteudoControle = TextEditingController(text: widget.note!.content);
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +66,7 @@ class _telaEditState extends State<telaEdit> {
               TextField(
                 controller: _conteudoControle,
                 style: TextStyle(color: Colors.black),
+                maxLines: null,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Descrição de tarefa',
